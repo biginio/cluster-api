@@ -17,10 +17,10 @@ limitations under the License.
 package controllers
 
 import (
-	"testing"
+	"testing" //test module
 
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	. "github.com/onsi/ginkgo" //bdd framework for Go
+	. "github.com/onsi/gomega" //bdd framework for Go
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -33,15 +33,17 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
+
 var _ = Describe("Machine Reconciler", func() {
 	It("Should create a Machine", func() {
 		// TODO
 	})
 })
 
+//to test reconcilation of machines
 func TestReconcileRequest(t *testing.T) {
 	RegisterTestingT(t)
-
+//infra config definition
 	infraConfig := unstructured.Unstructured{
 		Object: map[string]interface{}{
 			"kind":       "InfrastructureConfig",
@@ -64,6 +66,7 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
+	//test 3 machines
 	machine1 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -150,6 +153,8 @@ func TestReconcileRequest(t *testing.T) {
 		result reconcile.Result
 		err    bool
 	}
+
+	//setting up namespace for machines??
 	testCases := []struct {
 		request     reconcile.Request
 		existsValue bool
@@ -180,7 +185,7 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
-
+//test case run
 	for _, tc := range testCases {
 		v1alpha2.AddToScheme(scheme.Scheme)
 		r := &MachineReconciler{

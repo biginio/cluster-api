@@ -17,6 +17,7 @@ limitations under the License.
 package controllers
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/ginkgo"
@@ -39,8 +40,9 @@ var _ = Describe("Machine Reconciler", func() {
 	})
 })
 
+
 func TestReconcileRequest(t *testing.T) {
-	RegisterTestingT(t)
+	RegisterTestingT(t) // gomega 에서 RegisterTestingT 라는 function을 사용 합니다. RegisterTestingT connects Gomega to Golang's XUnit style Testing
 
 	infraConfig := unstructured.Unstructured{
 		Object: map[string]interface{}{
@@ -64,6 +66,9 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
+
+	fmt.Println(infraConfig)
+
 	machine1 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -79,9 +84,12 @@ func TestReconcileRequest(t *testing.T) {
 				Kind:       "InfrastructureConfig",
 				Name:       "infra-config1",
 			},
+
 			Bootstrap: v1alpha2.Bootstrap{Data: pointer.StringPtr("data")},
 		},
 	}
+
+
 	machine2 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -146,6 +154,7 @@ func TestReconcileRequest(t *testing.T) {
 		},
 	}
 
+	// test run 후 나와 야 되는 내용 (답안지)
 	type expected struct {
 		result reconcile.Result
 		err    bool
@@ -187,6 +196,8 @@ func TestReconcileRequest(t *testing.T) {
 			Client: fake.NewFakeClient(&clusterList, &machine1, &machine2, &machine3, &infraConfig),
 			Log:    log.Log,
 		}
+		fmt.Println(r)
+
 
 		result, err := r.Reconcile(tc.request)
 		if tc.expected.err {
@@ -197,4 +208,8 @@ func TestReconcileRequest(t *testing.T) {
 
 		Expect(result).To(Equal(tc.expected.result))
 	}
+
+	fmt.Println("dsdd")
 }
+
+

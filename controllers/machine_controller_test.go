@@ -44,6 +44,8 @@ var _ = Describe("Machine Reconciler", func() {
 func TestReconcileRequest(t *testing.T) {
 	RegisterTestingT(t) // gomega 에서 RegisterTestingT 라는 function을 사용 합니다. RegisterTestingT connects Gomega to Golang's XUnit style Testing
 
+
+	//test 할 환경들을 설정합니다.
 	infraConfig := unstructured.Unstructured{
 		Object: map[string]interface{}{
 			"kind":       "InfrastructureConfig",
@@ -193,7 +195,7 @@ func TestReconcileRequest(t *testing.T) {
 	for _, tc := range testCases {
 		v1alpha2.AddToScheme(scheme.Scheme)
 		r := &MachineReconciler{
-			Client: fake.NewFakeClient(&clusterList, &machine1, &machine2, &machine3, &infraConfig),
+			Client: fake.NewFakeClient(&clusterList, &machine1, &machine2, &machine3, &infraConfig), //위에 선언된 상테를 테스트합니다.
 			Log:    log.Log,
 		}
 		fmt.Println(r)

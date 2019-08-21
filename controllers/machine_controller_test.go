@@ -37,7 +37,7 @@ import (
 
 var _ = Describe("Machine Reconciler", func() { // Machine Reconciler 를 테스팅 하기 위한 테스트 Set
 	It("Should create a Machine", func() { // Machine Reconciler 테스트 item
-		// TODO 해야할 업무
+		// TODO 해야할 업무 BDD 형식으로 변경할 예정인듯
 	})
 })
 

@@ -30,9 +30,9 @@ import (
 	"k8s.io/client-go/kubernetes/scheme" // kubernetes scheme
 	"k8s.io/utils/pointer" // kubernetes custom pointer types
 	"sigs.k8s.io/cluster-api/api/v1alpha2" // 테스트할 코드
-	"sigs.k8s.io/controller-runtime/pkg/client/fake" // 테스트할 코드
-	"sigs.k8s.io/controller-runtime/pkg/log" // 테스트할 코드
-	"sigs.k8s.io/controller-runtime/pkg/reconcile" // 테스트할 코드
+	"sigs.k8s.io/controller-runtime/pkg/client/fake" // Kubernetes Mock Client 코드
+	"sigs.k8s.io/controller-runtime/pkg/log" // Kubernetes Log 도구
+	"sigs.k8s.io/controller-runtime/pkg/reconcile" // Kubernetes reconcile 헬퍼 도구 코드
 )
 
 var _ = Describe("Machine Reconciler", func() { // Machine Reconciler 를 테스팅 하기 위한 테스트 Set

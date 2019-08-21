@@ -40,6 +40,7 @@ var _ = Describe("Machine Reconciler", func() {
 })
 
 func TestReconcileRequest(t *testing.T) {
+	// Reconcile 함수를 테스트하는 함수
 	RegisterTestingT(t)
 
 	infraConfig := unstructured.Unstructured{
@@ -64,6 +65,8 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
+	// 클러스터를 생성하기 위한 설정(yaml)을 담은 객체를 생성
+	// API 객체를 사용하기 위해 unstructured 모듈을 사용
 	machine1 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -82,6 +85,8 @@ func TestReconcileRequest(t *testing.T) {
 			Bootstrap: v1alpha2.Bootstrap{Data: pointer.StringPtr("data")},
 		},
 	}
+	// meta 정보가 create 이므로 v1alpha2 모듈의 Machine 객체를 생성
+	// machine API, 벤더의 API 설정을 담은 객체 생성
 	machine2 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -100,6 +105,7 @@ func TestReconcileRequest(t *testing.T) {
 			Bootstrap: v1alpha2.Bootstrap{Data: pointer.StringPtr("data")},
 		},
 	}
+	// meta 정보가 update 이므로 객체에 담긴 설정을 수정
 	time := metav1.Now()
 	machine3 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
@@ -120,6 +126,7 @@ func TestReconcileRequest(t *testing.T) {
 			Bootstrap: v1alpha2.Bootstrap{Data: pointer.StringPtr("data")},
 		},
 	}
+	// meta 정보가 delete 이므로 설정을 삭제
 	clusterList := v1alpha2.ClusterList{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "ClusterList",
@@ -145,6 +152,7 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
+	// 클러스터의 리스트를 생성
 
 	type expected struct {
 		result reconcile.Result
@@ -180,15 +188,20 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
+	// 테스트케이스 생성
 
 	for _, tc := range testCases {
 		v1alpha2.AddToScheme(scheme.Scheme)
+		//
 		r := &MachineReconciler{
 			Client: fake.NewFakeClient(&clusterList, &machine1, &machine2, &machine3, &infraConfig),
 			Log:    log.Log,
 		}
+		// MachineReconciler 객체를 생성
+		// machine 객체를 reconcile 하는 역할을 수행
 
 		result, err := r.Reconcile(tc.request)
+		//
 		if tc.expected.err {
 			Expect(err).ToNot(BeNil())
 		} else {
@@ -197,4 +210,6 @@ func TestReconcileRequest(t *testing.T) {
 
 		Expect(result).To(Equal(tc.expected.result))
 	}
+	// 테스트 케이스 각각에 대해
+	// Why test?
 }

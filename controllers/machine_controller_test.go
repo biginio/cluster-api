@@ -64,6 +64,8 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
+
+	//infra config yaml 구조생성
 	machine1 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -146,6 +148,7 @@ func TestReconcileRequest(t *testing.T) {
 		},
 	}
 
+	// worker machine 생성, 클러스터 리스트 만듬
 	type expected struct {
 		result reconcile.Result
 		err    bool
@@ -181,6 +184,8 @@ func TestReconcileRequest(t *testing.T) {
 		},
 	}
 
+
+
 	for _, tc := range testCases {
 		v1alpha2.AddToScheme(scheme.Scheme)
 		r := &MachineReconciler{
@@ -188,12 +193,15 @@ func TestReconcileRequest(t *testing.T) {
 			Log:    log.Log,
 		}
 
+		//이행
 		result, err := r.Reconcile(tc.request)
 		if tc.expected.err {
 			Expect(err).ToNot(BeNil())
 		} else {
 			Expect(err).To(BeNil())
 		}
+
+
 
 		Expect(result).To(Equal(tc.expected.result))
 	}

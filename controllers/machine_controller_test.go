@@ -41,7 +41,7 @@ var _ = Describe("Machine Reconciler", func() {
 
 func TestReconcileRequest(t *testing.T) {
 	RegisterTestingT(t)
-	// Provider 인프라 설정?
+
 	infraConfig := unstructured.Unstructured{
 		Object: map[string]interface{}{
 			"kind":       "InfrastructureConfig",
@@ -64,7 +64,6 @@ func TestReconcileRequest(t *testing.T) {
 			},
 		},
 	}
-	// machine1 : 생성, machine2 : 업데이트, machine3 : 삭제
 	machine1 := v1alpha2.Machine{
 		TypeMeta: metav1.TypeMeta{
 			Kind: "Machine",
@@ -147,7 +146,7 @@ func TestReconcileRequest(t *testing.T) {
 		},
 	}
 
-	type expected struct { // 기대값을 만들기 위한 구조체
+	type expected struct {
 		result reconcile.Result
 		err    bool
 	}
@@ -199,5 +198,3 @@ func TestReconcileRequest(t *testing.T) {
 		Expect(result).To(Equal(tc.expected.result))
 	}
 }
-// 결론 : 클러스터 내부에서 Machine 들이 제대로 생성, 업데이트, 삭제 되는지 테스트 하는 코드
-// clusterctl 에 제출하는 machine.yaml 파일을 코드로 만들어서 테스트 하는 것 같다.
